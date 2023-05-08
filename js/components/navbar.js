@@ -9,12 +9,31 @@ export const Navbar = ({ isTeacher, activeSection }) => {
             </div>
             <div class="sidebar-wrapper" id="sidebar-wrapper">
                 <ul class="nav">
-                    <li ${activeSection === "MyCourse" && 'class="active"'}>
-                        <a href="./myCoursesPage.html">
-                            <i class="fas fa-book"></i>
-                            <p>My Courses</p>
-                        </a>
-                    </li>
+                   
+                    ${
+                      isTeacher
+                        ? `<li ${
+                            activeSection === "MyCourse" && 'class="active"'
+                          }>
+                          <a href="./teacherCourse.html">
+                              <i class="fas fa-book"></i>
+                              <p>My Courses</p>
+                          </a>
+                      </li>`
+                        : ""
+                    }
+                    ${
+                      !isTeacher
+                        ? `<li ${
+                            activeSection === "MyCourse" && 'class="active"'
+                          }>
+                          <a href="./studentCourse.html">
+                              <i class="fas fa-book"></i>
+                              <p>My Courses</p>
+                          </a>
+                      </li>`
+                        : ""
+                    }
                     ${
                       isTeacher
                         ? `<li ${
@@ -28,13 +47,26 @@ export const Navbar = ({ isTeacher, activeSection }) => {
                         : ""
                     }
                     ${
+                      !isTeacher
+                        ? `<li ${
+                            activeSection === "Submit assignment" &&
+                            'class="active"'
+                          }>
+                          <a href="./submitAssignmentPage.html">
+                              <i class="fas fa-edit"></i>
+                              <p>Submit assignments</p>
+                          </a>
+                      </li>`
+                        : ""
+                    }
+                    ${
                       isTeacher
                         ? `<li ${
                             activeSection === "Add course" && 'class="active"'
                           }>
                           <a href="./addCoursepage.html">
                               <i class="fas fa-plus"></i>
-                              <p>Add Course</p>
+                              <p>Create classeroom</p>
                           </a>
                       </li>`
                         : ""
@@ -126,6 +158,44 @@ export const Navbar = ({ isTeacher, activeSection }) => {
                           </li>`
                           : ""
                       }
+                    ${
+                      isTeacher
+                        ? `<li ${
+                            activeSection === "OfficeHours" && 'class="active"'
+                          }>
+                              <a href="./addStudent.html">
+                                  <i class="fas fa-plus"></i>
+                                  <p>Add Student</p>
+                              </a>
+                          </li>`
+                        : ""
+                    }
+                      ${
+                        !isTeacher
+                          ? `<li ${
+                              activeSection === "JoinClassroom" &&
+                              'class="active"'
+                            }>
+                              <a href="./joinClass.html">
+                                  <i class="fas fa-plus"></i>
+                                  <p>Join classroom</p>
+                              </a>
+                          </li>`
+                          : ""
+                      }
+                    ${
+                      isTeacher
+                        ? `<li ${
+                            activeSection === "Students" && 'class="active"'
+                          }>
+                              <a href="./enrolledStudents.html">
+                                  <i class="fas fa-male"></i>
+                                  <p>Students</p>
+                              </a>
+                          </li>`
+                        : ""
+                    }
+                     
                 </ul>
             </div>
           </>

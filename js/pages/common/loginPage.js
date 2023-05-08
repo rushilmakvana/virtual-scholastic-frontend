@@ -33,7 +33,7 @@ window.onload = function () {
       } else {
         document.getElementById("login-button").value = "Loading...";
         if (document.getElementById("student-radio").checked) {
-          fetch("http://localhost:3000/auth/login", {
+          fetch("/student/login", {
             method: "POST",
             headers: new Headers({
               "content-type": "application/json",
@@ -79,13 +79,14 @@ window.onload = function () {
               document.getElementById("login-button").value = "Login";
             });
         } else {
-          fetch("http://localhost:3000/auth/login", {
+          console.log("called");
+          fetch("http://localhost:3000/teacher/login", {
             method: "POST",
             headers: new Headers({
               "content-type": "application/json",
             }),
             body: JSON.stringify({
-              teacherId: id,
+              email: id,
               password: password,
             }),
           })
@@ -93,13 +94,15 @@ window.onload = function () {
               return response.json();
             })
             .then((response) => {
-              if (response.token) {
-                localStorage.setItem("name", response.name);
-                localStorage.setItem("token", response.token);
-                localStorage.setItem("identifier", id);
-                document.getElementById("login-button").value = "Login";
-                window.location.href = "myCoursesPage.html";
-              } else if (response.errorMessage === "Invalid password") {
+              console.log("response - ", response);
+              // if (response.token) {
+              localStorage.setItem("name", response.data.teacher.name);
+              localStorage.setItem("token", response.data.token);
+              localStorage.setItem("email", response.data.teacher.email);
+              //   localStorage.setItem("identifier", id);
+              document.getElementById("login-button").value = "Login";
+
+              if (response.message.includes("Invalid")) {
                 Swal.fire({
                   icon: "error",
                   title: "Oops...",
@@ -107,19 +110,30 @@ window.onload = function () {
                 });
                 document.getElementById("login-button").value = "Login";
               } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: "It's not you, it's us! Please try again after a while.",
-                });
-                document.getElementById("login-button").value = "Login";
+                window.location.href = "myCoursesPage.html";
               }
+              // } else if (response.errorMessage === "Invalid password") {
+              //   Swal.fire({
+              //     icon: "error",
+              //     title: "Oops...",
+              //     text: "Invalid password.",
+              //   });
+              //   document.getElementById("login-button").value = "Login";
+              // } else {
+              //   Swal.fire({
+              //     icon: "error",
+              //     title: "Oops...",
+              //     text: "It's not you, it's us! Please try again after a while.",
+              //   });
+              //   document.getElementById("login-button").value = "Login";
+              // }
             })
             .catch((err) => {
+              // console.log("err = ", err.status);
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "It's not you, it's us! Please try again after a while.",
+                text: "Invalid email or password",
               });
               document.getElementById("login-button").value = "Login";
             });
